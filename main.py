@@ -8,7 +8,7 @@ import requests
 import os
 
 
-BOT_TOKEN = 'BOT TOKEN'
+BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
 bot = telebot.TeleBot(BOT_TOKEN)
 
 
@@ -72,8 +72,8 @@ class FusionBrainAPI:
 
 fusion_brain_api = FusionBrainAPI(
     url='https://api-key.fusionbrain.ai/',
-    api_key='API KEY',
-    secret_key='SECRET KEY'
+    api_key='YOUR_FUSIONBRAIN_API_KEY',
+    secret_key='YOUR_FUSIONBRAIN_SECRET_KEY'
 )
 
 
