@@ -41,14 +41,6 @@ Install the required libraries using pip:
 pip install -r requirements.txt
 ```
 
-### **Environment Variables**
-Create a `.env` file in the root directory of the project and add the following variables:
-```env
-BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
-API_KEY=YOUR_FUSIONBRAIN_API_KEY
-SECRET_KEY=YOUR_FUSIONBRAIN_SECRET_KEY
-```
-
 ### **Run the Bot**
 1. Ensure all dependencies are installed and environment variables are set.
 2. Run the bot
