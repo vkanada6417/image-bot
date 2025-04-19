@@ -5,6 +5,7 @@ from io import BytesIO
 import base64
 import time
 import requests
+import os
 
 
 BOT_TOKEN = 'BOT TOKEN'
@@ -61,15 +62,12 @@ class FusionBrainAPI:
         Сохраняет изображение, закодированное в формате Base64, в объект BytesIO.
         """
         try:
-        
             decoded_data = base64.b64decode(base64_string)
-         
             image = Image.open(BytesIO(decoded_data))
             return image
         except Exception as e:
             print(f"Ошибка при обработке изображения: {e}")
             return None
-
 
 
 fusion_brain_api = FusionBrainAPI(
@@ -79,42 +77,35 @@ fusion_brain_api = FusionBrainAPI(
 )
 
 
-
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
     bot.reply_to(message, "Привет! Я бот, который может генерировать изображения по вашему запросу. "
-                          "Просто отправьте мне описание желаемого изображения.")
-
+                          "Просто отправьте мне текстовое описание желаемого изображения, и я создам его для вас!")
 
 
 @bot.message_handler(func=lambda message: True)
 def handle_text_message(message):
     user_prompt = message.text
-    bot.send_message(message.chat.id, "Генерирую изображение...")
+    generating_message = bot.send_message(message.chat.id, "Генерирую картинку...")
+    bot.send_chat_action(message.chat.id, 'typing')
 
     try:
-       
         pipeline_id = fusion_brain_api.get_pipeline()
-
         uuid = fusion_brain_api.generate(user_prompt, pipeline_id)
-
         files = fusion_brain_api.check_generation(uuid)[0]
-
         image = fusion_brain_api.save_image_from_base64(files)
 
         if image:
-            
-            buffer = BytesIO()
-            image.save(buffer, format="JPEG")
-            buffer.seek(0)
-
-            
-            bot.send_photo(message.chat.id, photo=buffer)
+            temp_file_path = "temp_image.jpg"
+            image.save(temp_file_path, format="JPEG")
+            with open(temp_file_path, 'rb') as photo:
+                bot.send_photo(message.chat.id, photo=photo)
+            bot.delete_message(message.chat.id, generating_message.message_id)
+            os.remove(temp_file_path)
         else:
             bot.send_message(message.chat.id, "Извините, не удалось сгенерировать изображение.")
     except Exception as e:
         bot.send_message(message.chat.id, f"Произошла ошибка: {str(e)}")
-
 
 
 if __name__ == '__main__':
