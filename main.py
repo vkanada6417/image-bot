@@ -59,14 +59,14 @@ class FusionBrainAPI:
 
     def save_image_from_base64(self, base64_string):
         """
-        Сохраняет изображение, закодированное в формате Base64, в объект BytesIO.
+        Saves an image encoded in Base64 format into a BytesIO object.
         """
         try:
             decoded_data = base64.b64decode(base64_string)
             image = Image.open(BytesIO(decoded_data))
             return image
         except Exception as e:
-            print(f"Ошибка при обработке изображения: {e}")
+            print(f"Error processing image: {e}")
             return None
 
 
@@ -79,14 +79,14 @@ fusion_brain_api = FusionBrainAPI(
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, "Привет! Я бот, который может генерировать изображения по вашему запросу. "
-                          "Просто отправьте мне текстовое описание желаемого изображения, и я создам его для вас!")
+    bot.reply_to(message, "Hello! I'm a bot that can generate images based on your requests. "
+                          "Just send me a text description of the desired image, and I'll create it for you!")
 
 
 @bot.message_handler(func=lambda message: True)
 def handle_text_message(message):
     user_prompt = message.text
-    generating_message = bot.send_message(message.chat.id, "Генерирую картинку...")
+    generating_message = bot.send_message(message.chat.id, "Generating image...")
     bot.send_chat_action(message.chat.id, 'typing')
 
     try:
@@ -103,9 +103,9 @@ def handle_text_message(message):
             bot.delete_message(message.chat.id, generating_message.message_id)
             os.remove(temp_file_path)
         else:
-            bot.send_message(message.chat.id, "Извините, не удалось сгенерировать изображение.")
+            bot.send_message(message.chat.id, "Sorry, I couldn't generate the image.")
     except Exception as e:
-        bot.send_message(message.chat.id, f"Произошла ошибка: {str(e)}")
+        bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
 
 
 if __name__ == '__main__':
