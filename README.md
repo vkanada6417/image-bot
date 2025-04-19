@@ -74,7 +74,9 @@ A futuristic city at sunset
 Generating image...
 ```
 (After image generation completes)
-![](![photo_2025-04-19_20-47-29](https://github.com/user-attachments/assets/87558543-81a7-4f6f-bc7a-48083683e47b))
+
+![photo_2025-04-19_20-47-29](https://github.com/user-attachments/assets/613bb150-6a7a-4dc8-b3cb-19b3f863fac8)
+
 
 ---
 
