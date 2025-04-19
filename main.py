@@ -7,7 +7,7 @@ import time
 import requests
 
 
-BOT_TOKEN = 'YOUR BOT TOKEN'
+BOT_TOKEN = 'BOT TOKEN'
 bot = telebot.TeleBot(BOT_TOKEN)
 
 
@@ -74,8 +74,8 @@ class FusionBrainAPI:
 
 fusion_brain_api = FusionBrainAPI(
     url='https://api-key.fusionbrain.ai/',
-    api_key='18E899E695C9EF3770A16517E41AA7F0',
-    secret_key='534EE409B62AA7C82E2A5B9097F8636A'
+    api_key='API KEY',
+    secret_key='SECRET KEY'
 )
 
 
@@ -89,7 +89,7 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_text_message(message):
-    user_prompt = message.text  # Получаем текст от пользователя
+    user_prompt = message.text
     bot.send_message(message.chat.id, "Генерирую изображение...")
 
     try:
